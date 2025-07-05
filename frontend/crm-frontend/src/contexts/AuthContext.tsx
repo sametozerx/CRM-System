@@ -18,12 +18,16 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     const token = localStorage.getItem('token');
     if (token) {
       try {
-        const decoded = jwtDecode<{ name: string; role: string }>(token);
+        const decoded = jwtDecode(token);
+        const decodedAny = decoded as any;
+        const username = decodedAny.name || decodedAny['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'];
+        const role = decodedAny.role || decodedAny['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];
+        
         const user: User = {
-          id: 0, // JWT'den ID alamıyoruz, bu yüzden 0
-          username: decoded.name,
+          id: 0,
+          username: username,
           password: '',
-          role: decoded.role,
+          role: role,
           createdAt: '',
           updatedAt: ''
         };
@@ -41,12 +45,16 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       const response = await apiService.login({ username, password });
       localStorage.setItem('token', response.token);
       
-      const decoded = jwtDecode<{ name: string; role: string }>(response.token);
+      const decoded = jwtDecode(response.token);
+      const decodedAny = decoded as any;
+      const tokenUsername = decodedAny.name || decodedAny['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'];
+      const tokenRole = decodedAny.role || decodedAny['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];
+      
       const user: User = {
         id: 0,
-        username: decoded.name,
+        username: tokenUsername,
         password: '',
-        role: decoded.role,
+        role: tokenRole,
         createdAt: '',
         updatedAt: ''
       };
@@ -66,11 +74,32 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     setIsAuthenticated(false);
   };
 
+  // Rol kontrolü için yardımcı fonksiyonlar
+  const isAdmin = (): boolean => {
+    return user?.role === 'Admin';
+  };
+
+  const isUser = (): boolean => {
+    return user?.role === 'User';
+  };
+
+  const hasRole = (role: string): boolean => {
+    return user?.role === role;
+  };
+
+  const hasAnyRole = (roles: string[]): boolean => {
+    return user ? roles.includes(user.role) : false;
+  };
+
   const value: AuthContextType = {
     user,
     login,
     logout,
-    isAuthenticated
+    isAuthenticated,
+    isAdmin,
+    isUser,
+    hasRole,
+    hasAnyRole
   };
 
   return (

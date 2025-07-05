@@ -22,16 +22,18 @@ namespace CrmApi.Controllers
             _logger = logger;
         }
 
-        // GET: api/Customer
+        // GET: api/Customer - User ve Admin erişebilir
         [HttpGet]
+        [Authorize(Roles = "User,Admin")]
         public async Task<ActionResult<IEnumerable<Customer>>> GetCustomers()
         {
             var customers = await _repository.GetAllAsync();
             return Ok(customers);
         }
 
-        // GET: api/Customer/5
+        // GET: api/Customer/5 - User ve Admin erişebilir
         [HttpGet("{id}")]
+        [Authorize(Roles = "User,Admin")]
         public async Task<ActionResult<Customer>> GetCustomer(int id)
         {
             var customer = await _repository.GetByIdAsync(id);
@@ -40,7 +42,7 @@ namespace CrmApi.Controllers
             return Ok(customer);
         }
 
-        // POST: api/Customer
+        // POST: api/Customer - Sadece Admin erişebilir
         [HttpPost]
         [Authorize(Roles = "Admin")]
         public async Task<ActionResult<Customer>> CreateCustomer([FromBody] Customer customer)
@@ -56,8 +58,9 @@ namespace CrmApi.Controllers
             return CreatedAtAction(nameof(GetCustomer), new { id = customer.Id }, customer);
         }
 
-        // PUT: api/Customer/5
+        // PUT: api/Customer/5 - Sadece Admin erişebilir
         [HttpPut("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> UpdateCustomer(int id, [FromBody] Customer customer)
         {
             if (id != customer.Id)
@@ -91,8 +94,9 @@ namespace CrmApi.Controllers
             return NoContent();
         }
 
-        // DELETE: api/Customer/5
+        // DELETE: api/Customer/5 - Sadece Admin erişebilir
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteCustomer(int id)
         {
             var customer = await _repository.GetByIdAsync(id);
@@ -106,8 +110,9 @@ namespace CrmApi.Controllers
             return NoContent();
         }
 
-        // GET: api/Customer/filter?name=John&region=Europe
+        // GET: api/Customer/filter?name=John&region=Europe - User ve Admin erişebilir
         [HttpGet("filter")]
+        [Authorize(Roles = "User,Admin")]
         public async Task<ActionResult<IEnumerable<Customer>>> FilterCustomers(string? name, string? email, string? region, DateTime? registrationDate)
         {
             // DateTime'ı UTC'ye çevir

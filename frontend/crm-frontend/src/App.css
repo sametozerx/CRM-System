@@ -88,3 +88,37 @@
     font-size: 12px;
   }
 }
+
+/* Dropdown stilleri */
+.dropdown-item {
+  color: white !important;
+}
+
+.dropdown-item:hover {
+  color: white !important;
+  background-color: #1e6091 !important;
+}
+
+.dropdown-item.active {
+  color: white !important;
+  background-color: #1e6091 !important;
+}
+
+.dropdown-menu {
+  background-color: #184e77 !important;
+  border: none !important;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15) !important;
+}
+
+.dropdown-toggle {
+  color: white !important;
+}
+
+.dropdown-toggle:hover {
+  color: white !important;
+}
+
+.dropdown-toggle:focus {
+  color: white !important;
+  box-shadow: none !important;
+}

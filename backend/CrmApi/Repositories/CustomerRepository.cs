@@ -17,7 +17,7 @@ namespace CrmApi.Repositories
         }
         public async Task<IEnumerable<Customer>> GetAllAsync()
         {
-            return await _context.Customers.ToListAsync();
+            return await _context.Customers.OrderBy(c => c.Id).ToListAsync();
         }
         public async Task<Customer?> GetByIdAsync(int id)
         {
@@ -46,11 +46,12 @@ namespace CrmApi.Repositories
         {
             var query = _context.Customers.AsQueryable();
             if (!string.IsNullOrEmpty(name))
-                query = query.Where(c => c.FirstName.Contains(name) || c.LastName.Contains(name));
+                query = query.Where(c => EF.Functions.Like(c.FirstName.ToLower(), $"%{name.ToLower()}%") || 
+                                        EF.Functions.Like(c.LastName.ToLower(), $"%{name.ToLower()}%"));
             if (!string.IsNullOrEmpty(email))
-                query = query.Where(c => c.Email.Contains(email));
+                query = query.Where(c => EF.Functions.Like(c.Email.ToLower(), $"%{email.ToLower()}%"));
             if (!string.IsNullOrEmpty(region))
-                query = query.Where(c => c.Region.Contains(region));
+                query = query.Where(c => EF.Functions.Like(c.Region.ToLower(), $"%{region.ToLower()}%"));
             if (registrationDate.HasValue)
                 query = query.Where(c => c.RegistrationDate.Date == registrationDate.Value.Date);
             return await query.ToListAsync();
