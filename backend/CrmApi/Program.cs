@@ -10,8 +10,21 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+// CORS Configuration
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowReactApp",
+        builder =>
+        {
+            builder.WithOrigins("http://localhost:3000", "https://localhost:3000", "http://localhost:3001", "https://localhost:3001")
+                   .AllowAnyHeader()
+                   .AllowAnyMethod()
+                   .AllowCredentials();
+        });
+});
+
 // JWT Authentication
-var jwtKey = builder.Configuration["Jwt:Key"] ?? "supersecretkey12345";
+var jwtKey = builder.Configuration["Jwt:Key"] ?? "K8mN2pQ7rS9tU4vW1xY6zA3bC5dE8fG0hI";
 var jwtIssuer = builder.Configuration["Jwt:Issuer"] ?? "crmapi";
 builder.Services.AddAuthentication(options =>
 {
@@ -37,18 +50,21 @@ builder.Services.AddScoped<CrmApi.Repositories.IUserRepository, CrmApi.Repositor
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(); // Swagger devre dışı
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwagger(); // Swagger devre dışı
+    app.UseSwaggerUI(); // Swagger UI devre dışı
 }
 
 app.UseHttpsRedirection();
+
+// CORS middleware
+app.UseCors("AllowReactApp");
 
 app.UseAuthentication();
 app.UseAuthorization();

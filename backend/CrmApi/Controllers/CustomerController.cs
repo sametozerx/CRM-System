@@ -43,8 +43,14 @@ namespace CrmApi.Controllers
         // POST: api/Customer
         [HttpPost]
         [Authorize(Roles = "Admin")]
-        public async Task<ActionResult<Customer>> CreateCustomer(Customer customer)
+        public async Task<ActionResult<Customer>> CreateCustomer([FromBody] Customer customer)
         {
+            // DateTime'ı UTC'ye çevir
+            if (customer.RegistrationDate.Kind != DateTimeKind.Utc)
+            {
+                customer.RegistrationDate = DateTime.SpecifyKind(customer.RegistrationDate, DateTimeKind.Utc);
+            }
+            
             _logger.LogInformation($"Adding new customer: {customer.FirstName} {customer.LastName}");
             await _repository.AddAsync(customer);
             return CreatedAtAction(nameof(GetCustomer), new { id = customer.Id }, customer);
@@ -52,13 +58,20 @@ namespace CrmApi.Controllers
 
         // PUT: api/Customer/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateCustomer(int id, Customer customer)
+        public async Task<IActionResult> UpdateCustomer(int id, [FromBody] Customer customer)
         {
             if (id != customer.Id)
             {
                 _logger.LogWarning($"Update failed: ID mismatch (id: {id}, customer.Id: {customer.Id})");
                 return BadRequest();
             }
+            
+            // DateTime'ı UTC'ye çevir
+            if (customer.RegistrationDate.Kind != DateTimeKind.Utc)
+            {
+                customer.RegistrationDate = DateTime.SpecifyKind(customer.RegistrationDate, DateTimeKind.Utc);
+            }
+            
             try
             {
                 await _repository.UpdateAsync(customer);
@@ -97,6 +110,12 @@ namespace CrmApi.Controllers
         [HttpGet("filter")]
         public async Task<ActionResult<IEnumerable<Customer>>> FilterCustomers(string? name, string? email, string? region, DateTime? registrationDate)
         {
+            // DateTime'ı UTC'ye çevir
+            if (registrationDate.HasValue && registrationDate.Value.Kind != DateTimeKind.Utc)
+            {
+                registrationDate = DateTime.SpecifyKind(registrationDate.Value, DateTimeKind.Utc);
+            }
+            
             var result = await _repository.FilterAsync(name, email, region, registrationDate);
             _logger.LogInformation($"Filtering completed. Result count: {result.Count()}");
             return Ok(result);

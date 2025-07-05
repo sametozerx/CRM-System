@@ -27,21 +27,6 @@ namespace CrmApi.Controllers
             _logger = logger;
         }
 
-        [HttpPost("register")]
-        public async Task<IActionResult> Register(User user)
-        {
-            if (await _userRepository.GetByUsernameAsync(user.Username) != null)
-            {
-                _logger.LogWarning($"Registration failed: Username already exists. ({user.Username})");
-                return BadRequest("Username already exists.");
-            }
-            user.CreatedAt = DateTime.UtcNow;
-            user.UpdatedAt = DateTime.UtcNow;
-            await _userRepository.AddAsync(user);
-            _logger.LogInformation($"New user registration: {user.Username}");
-            return Ok("Registration successful.");
-        }
-
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] User login)
         {
@@ -58,7 +43,7 @@ namespace CrmApi.Controllers
 
         private string GenerateJwtToken(User user)
         {
-            var jwtKey = _configuration["Jwt:Key"] ?? "supersecretkey12345";
+            var jwtKey = _configuration["Jwt:Key"] ?? "K8mN2pQ7rS9tU4vW1xY6zA3bC5dE8fG0hI";
             var jwtIssuer = _configuration["Jwt:Issuer"] ?? "crmapi";
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
