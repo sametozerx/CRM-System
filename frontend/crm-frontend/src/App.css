@@ -122,3 +122,26 @@
   color: white !important;
   box-shadow: none !important;
 }
+
+/* İkon stilleri - dolu versiyonlar için */
+.bi {
+  font-weight: 600;
+}
+
+/* Sidebar ikonları için özel stiller */
+.sidebar-icon {
+  font-weight: 600;
+  font-size: 18px;
+}
+
+/* Aktif sekme ikonları için daha belirgin stil */
+.active-tab-icon {
+  font-weight: 700;
+  color: #f8f9fa !important;
+}
+
+/* İkon hover efektleri */
+.sidebar-nav-item:hover .bi {
+  transform: scale(1.1);
+  transition: transform 0.2s ease;
+}

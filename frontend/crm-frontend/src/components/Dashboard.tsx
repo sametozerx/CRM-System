@@ -62,7 +62,7 @@ const Dashboard: React.FC = () => {
                 color: '#6c757d',
                 boxShadow: '0 4px 12px rgba(233, 236, 239, 0.3)',
               }}>
-                <i className="bi bi-person-fill"></i>
+                <i className="bi bi-person-fill sidebar-icon"></i>
               </div>
               <div>
                 <div style={{
@@ -109,7 +109,7 @@ const Dashboard: React.FC = () => {
                 e.currentTarget.style.borderColor = 'rgba(255,255,255,0.2)';
               }}
             >
-              <i className="bi bi-box-arrow-right" style={{ fontSize: '14px' }}></i>
+              <i className="bi bi-box-arrow-right sidebar-icon" style={{ fontSize: '14px' }}></i>
               Logout
             </button>
           </div>
@@ -120,6 +120,7 @@ const Dashboard: React.FC = () => {
           <nav>
             <div
               onClick={() => setActiveTab('customers')}
+              className="sidebar-nav-item"
               style={{
                 display: 'flex',
                 alignItems: 'center',
@@ -149,12 +150,13 @@ const Dashboard: React.FC = () => {
                 fontSize: '18px',
                 color: activeTab === 'customers' ? '#adb5bd' : 'rgba(255,255,255,0.8)'
               }}>
-                <i className="bi bi-people" />
+                <i className={`bi bi-people-fill ${activeTab === 'customers' ? 'active-tab-icon' : 'sidebar-icon'}`} />
               </span>
               Customers
             </div>
             <div
               onClick={() => setActiveTab('overview')}
+              className="sidebar-nav-item"
               style={{
                 display: 'flex',
                 alignItems: 'center',
@@ -184,7 +186,7 @@ const Dashboard: React.FC = () => {
                 fontSize: '18px',
                 color: activeTab === 'overview' ? '#adb5bd' : 'rgba(255,255,255,0.8)'
               }}>
-                <i className="bi bi-bar-chart" />
+                <i className={`bi bi-bar-chart-fill ${activeTab === 'overview' ? 'active-tab-icon' : 'sidebar-icon'}`} />
               </span>
               Overview
             </div>

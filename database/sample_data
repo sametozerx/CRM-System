@@ -1,0 +1,112 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 17.5
+-- Dumped by pg_dump version 17.5
+
+-- Started on 2025-07-06 15:00:10
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET transaction_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+--
+-- TOC entry 4803 (class 0 OID 16395)
+-- Dependencies: 219
+-- Data for Name: Customers; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."Customers" ("Id", "FirstName", "LastName", "Email", "Region", "RegistrationDate") FROM stdin;
+1	John	Doe	john.doe@example.com	North America	2023-06-15 00:00:00+03
+2	Jane	Smith	jane.smith@example.com	Europe	2023-05-10 00:00:00+03
+3	Carlos	Gomez	carlos.gomez@example.com	South America	2023-07-22 00:00:00+03
+4	Maria	Rodriguez	maria.rodriguez@example.com	Europe	2023-03-14 00:00:00+03
+5	Ahmed	Hassan	ahmed.hassan@example.com	Middle East	2023-08-05 00:00:00+03
+6	Sarah	Johnson	sarah.johnson@example.com	North America	2023-11-20 00:00:00+03
+7	Li	Wei	li.wei@example.com	Asia Pacific	2023-12-03 00:00:00+03
+8	Michael	Brown	michael.brown@example.com	North America	2024-01-15 00:00:00+03
+9	Emma	Wilson	emma.wilson@example.com	Europe	2024-02-08 00:00:00+03
+10	David	Taylor	david.taylor@example.com	North America	2024-03-22 00:00:00+03
+11	Sophie	Martin	sophie.martin@example.com	Europe	2024-04-10 00:00:00+03
+12	James	Anderson	james.anderson@example.com	North America	2024-05-18 00:00:00+03
+13	Isabella	Garcia	isabella.garcia@example.com	South America	2024-06-25 00:00:00+03
+14	William	Miller	william.miller@example.com	North America	2024-07-12 00:00:00+03
+15	Olivia	Davis	olivia.davis@example.com	Europe	2024-08-30 00:00:00+03
+16	Robert	Martinez	robert.martinez@example.com	South America	2024-09-14 00:00:00+03
+17	Ava	Robinson	ava.robinson@example.com	North America	2024-10-05 00:00:00+03
+18	Daniel	Clark	daniel.clark@example.com	North America	2025-01-08 00:00:00+03
+19	Mia	Rodriguez	mia.rodriguez@example.com	South America	2025-01-15 00:00:00+03
+20	Christopher	Lewis	christopher.lewis@example.com	Europe	2025-01-22 00:00:00+03
+21	Charlotte	Lee	charlotte.lee@example.com	Asia Pacific	2025-02-03 00:00:00+03
+22	Matthew	Walker	matthew.walker@example.com	North America	2025-02-10 00:00:00+03
+23	Amelia	Hall	amelia.hall@example.com	Europe	2025-02-17 00:00:00+03
+24	Andrew	Allen	andrew.allen@example.com	North America	2025-02-24 00:00:00+03
+25	Harper	Young	harper.young@example.com	Asia Pacific	2025-03-05 00:00:00+03
+26	Joshua	King	joshua.king@example.com	Europe	2025-03-12 00:00:00+03
+27	Evelyn	Wright	evelyn.wright@example.com	North America	2025-03-19 00:00:00+03
+28	Ryan	Lopez	ryan.lopez@example.com	South America	2025-03-26 00:00:00+03
+29	Abigail	Hill	abigail.hill@example.com	Europe	2025-04-02 00:00:00+03
+30	Nathan	Scott	nathan.scott@example.com	North America	2025-04-09 00:00:00+03
+31	Alex	Thompson	alex.thompson@example.com	North America	2025-07-01 00:00:00+03
+32	Zoe	Chen	zoe.chen@example.com	Asia Pacific	2025-07-02 00:00:00+03
+\.
+
+
+--
+-- TOC entry 4805 (class 0 OID 16403)
+-- Dependencies: 221
+-- Data for Name: Users; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."Users" ("Id", "Username", "Password", "Role", "CreatedAt", "UpdatedAt") FROM stdin;
+1	alecwalton	admin1234	Admin	2025-07-04 21:21:26.848058+03	2025-07-04 21:21:26.848115+03
+2	robertwalton	user1234	User	2025-07-05 21:27:26.707979+03	2025-07-05 21:27:26.707979+03
+\.
+
+
+--
+-- TOC entry 4801 (class 0 OID 16389)
+-- Dependencies: 217
+-- Data for Name: __EFMigrationsHistory; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."__EFMigrationsHistory" ("MigrationId", "ProductVersion") FROM stdin;
+20250704065847_InitialCreate	9.0.6
+20250706113523_UpdateStringLengthConstraints	9.0.6
+20250706115109_UpdateRoleToEnum	9.0.6
+\.
+
+
+--
+-- TOC entry 4811 (class 0 OID 0)
+-- Dependencies: 218
+-- Name: Customers_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public."Customers_Id_seq"', 32, true);
+
+
+--
+-- TOC entry 4812 (class 0 OID 0)
+-- Dependencies: 220
+-- Name: Users_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public."Users_Id_seq"', 2, true);
+
+
+-- Completed on 2025-07-06 15:00:10
+
+--
+-- PostgreSQL database dump complete
+--
+

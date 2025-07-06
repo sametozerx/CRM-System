@@ -17,9 +17,15 @@ const CustomerForm: React.FC<CustomerFormProps> = ({ customer, onSubmit, onCance
     registrationDate: new Date().toISOString().split('T')[0]
   });
 
-  // Bugünün tarihini al (YYYY-MM-DD formatında)
+  // Get today's date (YYYY-MM-DD format)
   const today = new Date().toISOString().split('T')[0];
   const [loading, setLoading] = useState(false);
+  const [fieldErrors, setFieldErrors] = useState<{
+    firstName?: string, 
+    lastName?: string, 
+    email?: string, 
+    region?: string
+  }>({});
 
   useEffect(() => {
     if (customer) {
@@ -35,6 +41,7 @@ const CustomerForm: React.FC<CustomerFormProps> = ({ customer, onSubmit, onCance
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setFieldErrors({});
     setLoading(true);
 
     try {
@@ -56,6 +63,26 @@ const CustomerForm: React.FC<CustomerFormProps> = ({ customer, onSubmit, onCance
       ...prev,
       [name]: value
     }));
+
+    // Character limit validation
+    const maxLengths: { [key: string]: number } = {
+      firstName: 50,
+      lastName: 50,
+      email: 100,
+      region: 100
+    };
+
+    if (value.length > maxLengths[name]) {
+      const errorMessages: { [key: string]: string } = {
+        firstName: 'First name cannot exceed 50 characters',
+        lastName: 'Last name cannot exceed 50 characters',
+        email: 'Email cannot exceed 100 characters',
+        region: 'Region cannot exceed 100 characters'
+      };
+      setFieldErrors(prev => ({...prev, [name]: errorMessages[name]}));
+    } else {
+      setFieldErrors(prev => ({...prev, [name]: undefined}));
+    }
   };
 
   return (
@@ -110,17 +137,31 @@ const CustomerForm: React.FC<CustomerFormProps> = ({ customer, onSubmit, onCance
                 value={formData.firstName}
                 onChange={handleChange}
                 required
+                maxLength={50}
                 style={{
                   borderRadius: 12,
                   fontSize: 16,
                   padding: '14px 16px',
-                  border: '2px solid #e9ecef',
-                  marginBottom: 18,
+                  border: fieldErrors.firstName ? '2px solid #dc3545' : '2px solid #e9ecef',
+                  marginBottom: fieldErrors.firstName ? 8 : 18,
                   background: '#f8f9fa',
                   color: '#184e77',
                   boxShadow: '0 1px 4px rgba(30,96,145,0.04)'
                 }}
               />
+              {fieldErrors.firstName && (
+                <div style={{
+                  color: '#dc3545',
+                  fontSize: '12px',
+                  marginBottom: 18,
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '4px'
+                }}>
+                  <i className="bi bi-exclamation-circle-fill"></i>
+                  {fieldErrors.firstName}
+                </div>
+              )}
             </div>
             <div style={{ flex: 1, minWidth: 220 }}>
               <Form.Label style={{ fontWeight: 600, color: '#184e77', fontSize: 15 }}>Last Name *</Form.Label>
@@ -130,17 +171,31 @@ const CustomerForm: React.FC<CustomerFormProps> = ({ customer, onSubmit, onCance
                 value={formData.lastName}
                 onChange={handleChange}
                 required
+                maxLength={50}
                 style={{
                   borderRadius: 12,
                   fontSize: 16,
                   padding: '14px 16px',
-                  border: '2px solid #e9ecef',
-                  marginBottom: 18,
+                  border: fieldErrors.lastName ? '2px solid #dc3545' : '2px solid #e9ecef',
+                  marginBottom: fieldErrors.lastName ? 8 : 18,
                   background: '#f8f9fa',
                   color: '#184e77',
                   boxShadow: '0 1px 4px rgba(30,96,145,0.04)'
                 }}
               />
+              {fieldErrors.lastName && (
+                <div style={{
+                  color: '#dc3545',
+                  fontSize: '12px',
+                  marginBottom: 18,
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '4px'
+                }}>
+                  <i className="bi bi-exclamation-circle-fill"></i>
+                  {fieldErrors.lastName}
+                </div>
+              )}
             </div>
           </div>
           <div style={{ display: 'flex', gap: 24, flexWrap: 'wrap' }}>
@@ -152,17 +207,31 @@ const CustomerForm: React.FC<CustomerFormProps> = ({ customer, onSubmit, onCance
                 value={formData.email}
                 onChange={handleChange}
                 required
+                maxLength={100}
                 style={{
                   borderRadius: 12,
                   fontSize: 16,
                   padding: '14px 16px',
-                  border: '2px solid #e9ecef',
-                  marginBottom: 18,
+                  border: fieldErrors.email ? '2px solid #dc3545' : '2px solid #e9ecef',
+                  marginBottom: fieldErrors.email ? 8 : 18,
                   background: '#f8f9fa',
                   color: '#184e77',
                   boxShadow: '0 1px 4px rgba(30,96,145,0.04)'
                 }}
               />
+              {fieldErrors.email && (
+                <div style={{
+                  color: '#dc3545',
+                  fontSize: '12px',
+                  marginBottom: 18,
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '4px'
+                }}>
+                  <i className="bi bi-exclamation-circle-fill"></i>
+                  {fieldErrors.email}
+                </div>
+              )}
             </div>
             <div style={{ flex: 1, minWidth: 220 }}>
               <Form.Label style={{ fontWeight: 600, color: '#184e77', fontSize: 15 }}>Region *</Form.Label>
@@ -172,17 +241,31 @@ const CustomerForm: React.FC<CustomerFormProps> = ({ customer, onSubmit, onCance
                 value={formData.region}
                 onChange={handleChange}
                 required
+                maxLength={100}
                 style={{
                   borderRadius: 12,
                   fontSize: 16,
                   padding: '14px 16px',
-                  border: '2px solid #e9ecef',
-                  marginBottom: 18,
+                  border: fieldErrors.region ? '2px solid #dc3545' : '2px solid #e9ecef',
+                  marginBottom: fieldErrors.region ? 8 : 18,
                   background: '#f8f9fa',
                   color: '#184e77',
                   boxShadow: '0 1px 4px rgba(30,96,145,0.04)'
                 }}
               />
+              {fieldErrors.region && (
+                <div style={{
+                  color: '#dc3545',
+                  fontSize: '12px',
+                  marginBottom: 18,
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '4px'
+                }}>
+                  <i className="bi bi-exclamation-circle-fill"></i>
+                  {fieldErrors.region}
+                </div>
+              )}
             </div>
           </div>
           <div style={{ display: 'flex', gap: 24, flexWrap: 'wrap' }}>

@@ -1,3 +1,8 @@
+export enum UserRole {
+  User = 'User',
+  Admin = 'Admin'
+}
+
 export interface Customer {
   id: number;
   firstName: string;
@@ -11,7 +16,7 @@ export interface User {
   id: number;
   username: string;
   password: string;
-  role: string;
+  role: UserRole;
   createdAt: string;
   updatedAt: string;
 }
@@ -32,8 +37,8 @@ export interface AuthContextType {
   isAuthenticated: boolean;
   isAdmin: () => boolean;
   isUser: () => boolean;
-  hasRole: (role: string) => boolean;
-  hasAnyRole: (roles: string[]) => boolean;
+  hasRole: (role: UserRole) => boolean;
+  hasAnyRole: (roles: UserRole[]) => boolean;
 }
 
 export interface CustomerFilter {

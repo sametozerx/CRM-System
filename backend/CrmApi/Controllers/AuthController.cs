@@ -9,6 +9,7 @@ using CrmApi.Data;
 using CrmApi.Models;
 using Microsoft.Extensions.Logging;
 using CrmApi.Repositories;
+using System;
 
 namespace CrmApi.Controllers
 {
@@ -43,15 +44,15 @@ namespace CrmApi.Controllers
 
         private string GenerateJwtToken(User user)
         {
-            var jwtKey = _configuration["Jwt:Key"] ?? "K8mN2pQ7rS9tU4vW1xY6zA3bC5dE8fG0hI";
-            var jwtIssuer = _configuration["Jwt:Issuer"] ?? "crmapi";
+            var jwtKey = _configuration["Jwt:Key"] ?? throw new InvalidOperationException("JWT Key is not configured");
+            var jwtIssuer = _configuration["Jwt:Issuer"] ?? throw new InvalidOperationException("JWT Issuer is not configured");
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
             var claims = new[]
             {
                 new Claim(ClaimTypes.Name, user.Username),
-                new Claim(ClaimTypes.Role, user.Role)
+                new Claim(ClaimTypes.Role, user.Role.ToString())
             };
 
             var token = new JwtSecurityToken(

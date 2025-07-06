@@ -27,12 +27,16 @@ const CustomerList: React.FC<CustomerListProps> = ({ showForm, setShowForm, onAd
   const [search, setSearch] = useState('');
   const [searchField, setSearchField] = useState<'name' | 'email' | 'region' | 'registrationDate'>('name');
   const [isSearching, setIsSearching] = useState(false);
-  const { isAdmin } = useAuth();
+  const { isAdmin, user } = useAuth();
   
-  // Bugünün tarihini al (YYYY-MM-DD formatında)
+  // Add console.log for debugging
+  console.log('Current user:', user);
+  console.log('Is admin:', isAdmin());
+  
+  // Get today's date (YYYY-MM-DD format)
   const today = new Date().toISOString().split('T')[0];
   
-  // Debounce için ref'ler
+  // Refs for debounce
   const searchTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const searchInputRef = useRef<HTMLInputElement>(null);
 
@@ -62,7 +66,7 @@ const CustomerList: React.FC<CustomerListProps> = ({ showForm, setShowForm, onAd
     loadCustomers();
   }, [loadCustomers]);
 
-  // Debounce ile filter işlemi
+  // Filter operation with debounce
   const debouncedFilter = useCallback((searchValue: string, field: string) => {
     if (searchTimeoutRef.current) {
       clearTimeout(searchTimeoutRef.current);
@@ -92,15 +96,15 @@ const CustomerList: React.FC<CustomerListProps> = ({ showForm, setShowForm, onAd
       };
 
       performFilter();
-    }, 300); // 300ms debounce
+    }, 300); // 300ms debounce delay
   }, [loadCustomers, setErrorWithToast]);
 
-  // Search değiştiğinde debounced filter çağır
+  // Call debounced filter when search changes
   useEffect(() => {
     debouncedFilter(search, searchField);
   }, [search, searchField, debouncedFilter]);
 
-  // Component unmount olduğunda timeout'u temizle
+  // Clear timeout when component unmounts
   useEffect(() => {
     return () => {
       if (searchTimeoutRef.current) {
@@ -155,20 +159,19 @@ const CustomerList: React.FC<CustomerListProps> = ({ showForm, setShowForm, onAd
 
   return (
     <div style={{
-      background: '#f5f6fa',
+      background: '#f8f9fa',
       minHeight: '100vh',
       paddingTop: '4px',
       paddingBottom: 0,
       position: 'relative'
     }}>
-      {/* Background Pattern */}
-      {/* Arka plan pattern'ı kaldırıldı, sade */}
+  
 
       <div style={{ position: 'relative', zIndex: 1, width: '100%' }}>
         {/* Modern Search Card */}
         <div style={{
-          background: '#fff',
-          borderRadius: '18px',
+          background: '#f8f9fa',
+          borderRadius: '16px',
           padding: '32px',
           boxShadow: '0 4px 24px 0 rgba(60,72,88,0.08)',
           border: '1px solid #ececec',
@@ -248,7 +251,7 @@ const CustomerList: React.FC<CustomerListProps> = ({ showForm, setShowForm, onAd
                   e.currentTarget.style.boxShadow = '0 4px 12px rgba(24, 78, 119, 0.2)';
                 }}
               >
-                <i className="bi bi-plus-circle" style={{ color: 'white' }}></i>
+                <i className="bi bi-person-plus-fill sidebar-icon" style={{ color: 'white' }}></i>
                 Add Customer
               </button>
             )}
@@ -264,7 +267,7 @@ const CustomerList: React.FC<CustomerListProps> = ({ showForm, setShowForm, onAd
           }}>
             {searchField === 'registrationDate' ? (
               <div style={{ position: 'relative', flex: 1, minWidth: '280px' }}>
-                <i className="bi bi-calendar3" style={{
+                <i className="bi bi-calendar3-fill sidebar-icon" style={{
                   position: 'absolute',
                   left: '16px',
                   top: '50%',
@@ -309,7 +312,7 @@ const CustomerList: React.FC<CustomerListProps> = ({ showForm, setShowForm, onAd
               </div>
             ) : (
               <div style={{ position: 'relative', flex: 1, minWidth: '280px' }}>
-                <i className="bi bi-search" style={{
+                <i className="bi bi-search sidebar-icon" style={{
                   position: 'absolute',
                   left: '16px',
                   top: '50%',
@@ -387,8 +390,8 @@ const CustomerList: React.FC<CustomerListProps> = ({ showForm, setShowForm, onAd
 
         {/* Modern Table Card */}
         <div style={{
-          background: '#fff',
-          borderRadius: '18px',
+          background: '#f8f9fa',
+          borderRadius: '10px',
           boxShadow: '0 4px 24px 0 rgba(60,72,88,0.08)',
           border: '1px solid #ececec',
           overflow: 'hidden',
@@ -434,8 +437,11 @@ const CustomerList: React.FC<CustomerListProps> = ({ showForm, setShowForm, onAd
             <Table style={{ margin: 0, border: 'none' }}>
               <thead>
                 <tr style={{
-                  background: 'linear-gradient(135deg, #184e77 0%, #1e5a8a 100%)',
-                  color: 'white'
+                  background: 'linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%)',
+                  color: '#495057',
+                  position: 'sticky',
+                  top: 0,
+                  zIndex: 1
                 }}>
                   <th style={{
                     padding: '20px 16px',
@@ -443,7 +449,10 @@ const CustomerList: React.FC<CustomerListProps> = ({ showForm, setShowForm, onAd
                     fontWeight: '600',
                     textTransform: 'uppercase',
                     letterSpacing: '0.5px',
-                    border: 'none'
+                    border: 'none',
+                    position: 'sticky',
+                    top: 0,
+                    zIndex: 2
                   }}>ID</th>
                   <th style={{
                     padding: '20px 16px',
@@ -451,7 +460,10 @@ const CustomerList: React.FC<CustomerListProps> = ({ showForm, setShowForm, onAd
                     fontWeight: '600',
                     textTransform: 'uppercase',
                     letterSpacing: '0.5px',
-                    border: 'none'
+                    border: 'none',
+                    position: 'sticky',
+                    top: 0,
+                    zIndex: 2
                   }}>First Name</th>
                   <th style={{
                     padding: '20px 16px',
@@ -459,7 +471,10 @@ const CustomerList: React.FC<CustomerListProps> = ({ showForm, setShowForm, onAd
                     fontWeight: '600',
                     textTransform: 'uppercase',
                     letterSpacing: '0.5px',
-                    border: 'none'
+                    border: 'none',
+                    position: 'sticky',
+                    top: 0,
+                    zIndex: 2
                   }}>Last Name</th>
                   <th style={{
                     padding: '20px 16px',
@@ -467,7 +482,10 @@ const CustomerList: React.FC<CustomerListProps> = ({ showForm, setShowForm, onAd
                     fontWeight: '600',
                     textTransform: 'uppercase',
                     letterSpacing: '0.5px',
-                    border: 'none'
+                    border: 'none',
+                    position: 'sticky',
+                    top: 0,
+                    zIndex: 2
                   }}>Email</th>
                   <th style={{
                     padding: '20px 16px',
@@ -475,7 +493,10 @@ const CustomerList: React.FC<CustomerListProps> = ({ showForm, setShowForm, onAd
                     fontWeight: '600',
                     textTransform: 'uppercase',
                     letterSpacing: '0.5px',
-                    border: 'none'
+                    border: 'none',
+                    position: 'sticky',
+                    top: 0,
+                    zIndex: 2
                   }}>Region</th>
                   <th style={{
                     padding: '20px 16px',
@@ -483,19 +504,23 @@ const CustomerList: React.FC<CustomerListProps> = ({ showForm, setShowForm, onAd
                     fontWeight: '600',
                     textTransform: 'uppercase',
                     letterSpacing: '0.5px',
-                    border: 'none'
+                    border: 'none',
+                    position: 'sticky',
+                    top: 0,
+                    zIndex: 2
                   }}>Registration Date</th>
-                  {isAdmin() && (
-                    <th style={{
-                      padding: '20px 16px',
-                      fontSize: '14px',
-                      fontWeight: '600',
-                      textTransform: 'uppercase',
-                      letterSpacing: '0.5px',
-                      border: 'none',
-                      textAlign: 'center'
-                    }}>Actions</th>
-                  )}
+                  <th style={{
+                    padding: '20px 16px',
+                    fontSize: '14px',
+                    fontWeight: '600',
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.5px',
+                    border: 'none',
+                    textAlign: 'center',
+                    position: 'sticky',
+                    top: 0,
+                    zIndex: 2
+                  }}>Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -570,15 +595,14 @@ const CustomerList: React.FC<CustomerListProps> = ({ showForm, setShowForm, onAd
                       color: '#6c757d',
                       border: 'none'
                     }}>
-                      <i className="bi bi-calendar3" style={{ marginRight: '8px', color: '#184e77' }}></i>
+                      <i className="bi bi-calendar3" style={{ marginRight: '8px', color: '#184e77', fontSize: '18px', verticalAlign: 'middle' }}></i>
                       {new Date(customer.registrationDate).toLocaleDateString('en-US')}
                     </td>
-                    {isAdmin() && (
-                      <td style={{
-                        padding: '16px',
-                        border: 'none',
-                        textAlign: 'center'
-                      }}>
+                    <td style={{
+                      padding: '16px',
+                      border: 'none',
+                      textAlign: 'center'
+                    }}>
                         <div style={{ display: 'flex', gap: '8px', justifyContent: 'center' }}>
                           <button
                             onClick={() => handleEdit(customer)}
@@ -593,6 +617,9 @@ const CustomerList: React.FC<CustomerListProps> = ({ showForm, setShowForm, onAd
                               fontSize: '14px',
                               display: 'flex',
                               alignItems: 'center',
+                              minWidth: '36px',
+                              minHeight: '36px',
+                              justifyContent: 'center'
                             }}
                             onMouseEnter={(e) => {
                               e.currentTarget.style.transform = 'translateY(-2px)';
@@ -604,7 +631,12 @@ const CustomerList: React.FC<CustomerListProps> = ({ showForm, setShowForm, onAd
                             }}
                             title="Edit"
                           >
-                            <i className="bi bi-pencil-square" style={{ color: 'white' }}></i>
+                            <i className="bi bi-pencil-square" style={{ 
+                              color: 'white', 
+                              fontSize: '16px',
+                              display: 'block',
+                              lineHeight: '1'
+                            }}></i>
                           </button>
                           <button
                             onClick={() => handleDelete(customer.id)}
@@ -619,6 +651,9 @@ const CustomerList: React.FC<CustomerListProps> = ({ showForm, setShowForm, onAd
                               fontSize: '14px',
                               display: 'flex',
                               alignItems: 'center',
+                              minWidth: '36px',
+                              minHeight: '36px',
+                              justifyContent: 'center'
                             }}
                             onMouseEnter={(e) => {
                               e.currentTarget.style.transform = 'translateY(-2px)';
@@ -630,11 +665,15 @@ const CustomerList: React.FC<CustomerListProps> = ({ showForm, setShowForm, onAd
                             }}
                             title="Delete"
                           >
-                            <i className="bi bi-trash" style={{ color: 'white' }}></i>
+                            <i className="bi bi-trash" style={{ 
+                              color: 'white', 
+                              fontSize: '16px',
+                              display: 'block',
+                              lineHeight: '1'
+                            }}></i>
                           </button>
                         </div>
                       </td>
-                    )}
                   </tr>
                 ))}
               </tbody>
@@ -661,7 +700,7 @@ const CustomerList: React.FC<CustomerListProps> = ({ showForm, setShowForm, onAd
                       fontSize: '28px',
                       color: '#6c757d'
                     }}>
-                      <i className="bi bi-search"></i>
+                      <i className="bi bi-search sidebar-icon"></i>
                     </div>
                     <h3 style={{ margin: '0 0 8px 0', color: '#184e77', fontSize: '18px' }}>No Results Found</h3>
                     <p style={{ margin: 0, fontSize: '14px' }}>Try changing your search criteria</p>
@@ -680,7 +719,7 @@ const CustomerList: React.FC<CustomerListProps> = ({ showForm, setShowForm, onAd
                       fontSize: '28px',
                       color: '#6c757d'
                     }}>
-                      <i className="bi bi-people"></i>
+                      <i className="bi bi-people-fill sidebar-icon"></i>
                     </div>
                     <h3 style={{ margin: '0 0 8px 0', color: '#184e77', fontSize: '18px' }}>No Customers Yet</h3>
                     <p style={{ margin: 0, fontSize: '14px' }}>Start by adding your first customer</p>

@@ -24,8 +24,8 @@ builder.Services.AddCors(options =>
 });
 
 // JWT Authentication
-var jwtKey = builder.Configuration["Jwt:Key"] ?? "K8mN2pQ7rS9tU4vW1xY6zA3bC5dE8fG0hI";
-var jwtIssuer = builder.Configuration["Jwt:Issuer"] ?? "crmapi";
+var jwtKey = builder.Configuration["Jwt:Key"] ?? throw new InvalidOperationException("JWT Key is not configured");
+var jwtIssuer = builder.Configuration["Jwt:Issuer"] ?? throw new InvalidOperationException("JWT Issuer is not configured");
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -50,15 +50,15 @@ builder.Services.AddScoped<CrmApi.Repositories.IUserRepository, CrmApi.Repositor
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(); // Swagger devre dışı
+builder.Services.AddSwaggerGen(); // Swagger disabled
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger(); // Swagger devre dışı
-    app.UseSwaggerUI(); // Swagger UI devre dışı
+    app.UseSwagger(); // Swagger disabled
+    app.UseSwaggerUI(); // Swagger UI disabled
 }
 
 app.UseHttpsRedirection();

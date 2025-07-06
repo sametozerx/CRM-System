@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { jwtDecode } from 'jwt-decode';
-import { AuthContextType, User } from '../types';
+import { AuthContextType, User, UserRole } from '../types';
 import { apiService } from '../services/api';
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -14,14 +14,15 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
-    // Sayfa yüklendiğinde token kontrolü
+    // Token check when page loads
     const token = localStorage.getItem('token');
     if (token) {
       try {
         const decoded = jwtDecode(token);
         const decodedAny = decoded as any;
         const username = decodedAny.name || decodedAny['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'];
-        const role = decodedAny.role || decodedAny['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];
+        const roleString = decodedAny.role || decodedAny['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];
+        const role = roleString === 'Admin' ? UserRole.Admin : UserRole.User;
         
         const user: User = {
           id: 0,
@@ -48,7 +49,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       const decoded = jwtDecode(response.token);
       const decodedAny = decoded as any;
       const tokenUsername = decodedAny.name || decodedAny['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'];
-      const tokenRole = decodedAny.role || decodedAny['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];
+      const tokenRoleString = decodedAny.role || decodedAny['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];
+      const tokenRole = tokenRoleString === 'Admin' ? UserRole.Admin : UserRole.User;
       
       const user: User = {
         id: 0,
@@ -74,20 +76,20 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     setIsAuthenticated(false);
   };
 
-  // Rol kontrolü için yardımcı fonksiyonlar
+  // Helper functions for role checking
   const isAdmin = (): boolean => {
-    return user?.role === 'Admin';
+    return user?.role === UserRole.Admin;
   };
 
   const isUser = (): boolean => {
-    return user?.role === 'User';
+    return user?.role === UserRole.User;
   };
 
-  const hasRole = (role: string): boolean => {
+  const hasRole = (role: UserRole): boolean => {
     return user?.role === role;
   };
 
-  const hasAnyRole = (roles: string[]): boolean => {
+  const hasAnyRole = (roles: UserRole[]): boolean => {
     return user ? roles.includes(user.role) : false;
   };
 

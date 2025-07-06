@@ -14,7 +14,7 @@ class ApiService {
       },
     });
 
-    // Request interceptor - JWT token ekleme
+    // Request interceptor - JWT token addition
     this.api.interceptors.request.use(
       (config: InternalAxiosRequestConfig) => {
         const token = localStorage.getItem('token');
@@ -28,13 +28,13 @@ class ApiService {
       }
     );
 
-    // Response interceptor - 401 hatalarını yakalama
+    // Response interceptor - 401 error handling
     this.api.interceptors.response.use(
       (response: AxiosResponse) => response,
       (error: AxiosError) => {
         if (error.response?.status === 401) {
           localStorage.removeItem('token');
-          // Sadece dashboard sayfasındaysa login'e yönlendir
+          // Only redirect to login if not already on login page
           if (window.location.pathname !== '/login') {
             window.location.href = '/login';
           }

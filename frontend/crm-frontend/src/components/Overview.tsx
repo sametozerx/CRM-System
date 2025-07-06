@@ -102,12 +102,12 @@ const Overview: React.FC = () => {
         <div style={{ fontSize: 24, fontWeight: 600, marginBottom: 24, color: '#184e77', textAlign: 'center' }}>Customer Distribution by Region</div>
         {sortedRegions.length === 0 ? (
           <div style={{ textAlign: 'center', padding: '40px 20px', color: '#888' }}>
-            <i className="bi bi-bar-chart" style={{ fontSize: '3rem', marginBottom: '16px', display: 'block' }}></i>
+                            <i className="bi bi-bar-chart-fill sidebar-icon" style={{ fontSize: '3rem', marginBottom: '16px', display: 'block' }}></i>
             <p>No region data available yet</p>
           </div>
         ) : (
           <div style={{ position: 'relative', height: 260, paddingLeft: 60, paddingRight: 20, marginBottom: 24 }}>
-            {/* Y ekseni ve grid çizgileri */}
+            {/* Y-axis and grid lines */}
             {yTicks.slice().reverse().map((value, i) => (
               <div key={i} style={{
                 position: 'absolute',
@@ -131,7 +131,7 @@ const Overview: React.FC = () => {
                 }}>{value}</span>
               </div>
             ))}
-            {/* Barlar */}
+            {/* Bars */}
             <div style={{ display: 'flex', alignItems: 'flex-end', height: '100%', zIndex: 2, position: 'relative' }}>
               {sortedRegions.map((item, index) => (
                 <div key={index} style={{
@@ -181,7 +181,7 @@ const Overview: React.FC = () => {
             </div>
           </div>
         )}
-        {/* Grafik açıklaması */}
+        {/* Chart description */}
         <div style={{ 
           marginTop: 16, 
           padding: '16px 20px', 

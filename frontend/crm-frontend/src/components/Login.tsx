@@ -7,12 +7,14 @@ const Login: React.FC = () => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [fieldErrors, setFieldErrors] = useState<{username?: string, password?: string}>({});
   const { login } = useAuth();
   const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
+    setFieldErrors({});
     setLoading(true);
 
     try {
@@ -21,21 +23,21 @@ const Login: React.FC = () => {
         navigate('/dashboard');
       } else {
         setError('Invalid username or password');
-        // Hata mesajını 5 saniye sonra temizle
+        // Clear error message after 5 seconds
         setTimeout(() => setError(''), 5000);
       }
     } catch (err: any) {
       if (err.response?.data) {
-        // API'den gelen hata mesajını string'e çevir
+        // Convert API error message to string
         const errorMessage = typeof err.response.data === 'string' 
           ? err.response.data 
           : err.response.data.title || err.response.data.message || 'Login failed';
         setError(errorMessage);
-        // Hata mesajını 5 saniye sonra temizle
+        // Clear error message after 5 seconds
         setTimeout(() => setError(''), 5000);
       } else {
         setError('An error occurred during login');
-        // Hata mesajını 5 saniye sonra temizle
+        // Clear error message after 5 seconds
         setTimeout(() => setError(''), 5000);
       }
     } finally {
@@ -46,7 +48,7 @@ const Login: React.FC = () => {
   return (
     <div style={{
       minHeight: '100vh',
-      background: 'linear-gradient(135deg, #184e77 0%, #1e5a8a 50%, #386D9A 100%)',
+      background: 'linear-gradient(135deg, #184e77 0%, #1e5a8a 50%,rgb(45, 88, 125) 100%)',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
@@ -54,17 +56,6 @@ const Login: React.FC = () => {
       position: 'relative',
       overflow: 'hidden'
     }}>
-      {/* Background Pattern */}
-      <div style={{
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        background: 'radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%)',
-        pointerEvents: 'none'
-      }}></div>
-
       <div style={{
         maxWidth: '420px',
         width: '100%',
@@ -154,7 +145,7 @@ const Login: React.FC = () => {
                 display: 'flex',
                 alignItems: 'center'
               }}>
-                <i className="bi bi-person" style={{
+                <i className="bi bi-person-fill sidebar-icon" style={{
                   position: 'absolute',
                   left: '16px',
                   color: '#6c757d',
@@ -164,8 +155,17 @@ const Login: React.FC = () => {
                 <input
                   type="text"
                   value={username}
-                  onChange={(e) => setUsername(e.target.value)}
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    setUsername(value);
+                    if (value.length > 32) {
+                      setFieldErrors(prev => ({...prev, username: 'Username cannot exceed 32 characters'}));
+                    } else {
+                      setFieldErrors(prev => ({...prev, username: undefined}));
+                    }
+                  }}
                   required
+                  maxLength={32}
                   style={{
                     width: '100%',
                     padding: '14px 16px 14px 48px',
@@ -186,6 +186,19 @@ const Login: React.FC = () => {
                   }}
                   placeholder="Enter your username"
                 />
+                {fieldErrors.username && (
+                  <div style={{
+                    color: '#dc3545',
+                    fontSize: '12px',
+                    marginTop: '4px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '4px'
+                  }}>
+                    <i className="bi bi-exclamation-circle-fill"></i>
+                    {fieldErrors.username}
+                  </div>
+                )}
               </div>
             </div>
 
@@ -205,7 +218,7 @@ const Login: React.FC = () => {
                 display: 'flex',
                 alignItems: 'center'
               }}>
-                <i className="bi bi-lock" style={{
+                <i className="bi bi-lock-fill sidebar-icon" style={{
                   position: 'absolute',
                   left: '16px',
                   color: '#6c757d',
@@ -215,8 +228,17 @@ const Login: React.FC = () => {
                 <input
                   type="password"
                   value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    setPassword(value);
+                    if (value.length > 32) {
+                      setFieldErrors(prev => ({...prev, password: 'Password cannot exceed 32 characters'}));
+                    } else {
+                      setFieldErrors(prev => ({...prev, password: undefined}));
+                    }
+                  }}
                   required
+                  maxLength={32}
                   style={{
                     width: '100%',
                     padding: '14px 16px 14px 48px',
@@ -237,6 +259,19 @@ const Login: React.FC = () => {
                   }}
                   placeholder="Enter your password"
                 />
+                {fieldErrors.password && (
+                  <div style={{
+                    color: '#dc3545',
+                    fontSize: '12px',
+                    marginTop: '4px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '4px'
+                  }}>
+                    <i className="bi bi-exclamation-circle-fill"></i>
+                    {fieldErrors.password}
+                  </div>
+                )}
               </div>
             </div>
 
@@ -287,7 +322,7 @@ const Login: React.FC = () => {
                 </>
                              ) : (
                  <>
-                   <i className="bi bi-box-arrow-in-right"></i>
+                   <i className="bi bi-box-arrow-in-right sidebar-icon"></i>
                    Login
                  </>
                )}
