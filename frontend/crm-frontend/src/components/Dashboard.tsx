@@ -112,11 +112,15 @@ const Dashboard: React.FC = () => {
                 {user?.username || 'User'}
               </div>
               <div style={{
-                fontSize: '12px',
-                fontWeight: 'bold',
-                color: '#f8f9fa',
+                fontSize: '11px',
+                fontWeight: '500',
+                color: 'rgba(255,255,255,0.7)',
                 textTransform: 'uppercase',
-                letterSpacing: '0.5px'
+                letterSpacing: '0.5px',
+                background: 'rgba(255,255,255,0.1)',
+                padding: '2px 8px',
+                borderRadius: '4px',
+                display: 'inline-block',
               }}>
                 {user?.role || 'User'}
               </div>

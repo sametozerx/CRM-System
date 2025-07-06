@@ -373,7 +373,10 @@ const CustomerList: React.FC<CustomerListProps> = ({ showForm, setShowForm, onAd
                 <Dropdown.Item
                   key={opt.key}
                   active={searchField === opt.key}
-                  onClick={() => setSearchField(opt.key as any)}
+                  onClick={() => {
+                    setSearchField(opt.key as any);
+                    setSearch(''); // Reset filter text
+                  }}
                   style={{ 
                     background: searchField === opt.key ? '#1e6091' : '#184e77', 
                     color: 'white', 

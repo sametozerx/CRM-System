@@ -22,7 +22,7 @@ namespace CrmApi.Controllers
             _logger = logger;
         }
 
-        // GET: api/Customer - User ve Admin erişebilir
+        // GET: api/Customer - User and Admin can access
         [HttpGet]
         [Authorize(Roles = "User,Admin")]
         public async Task<ActionResult<IEnumerable<Customer>>> GetCustomers()
@@ -31,7 +31,7 @@ namespace CrmApi.Controllers
             return Ok(customers);
         }
 
-        // GET: api/Customer/5 - User ve Admin erişebilir
+        // GET: api/Customer/5 - User and Admin can access
         [HttpGet("{id}")]
         [Authorize(Roles = "User,Admin")]
         public async Task<ActionResult<Customer>> GetCustomer(int id)
@@ -42,12 +42,12 @@ namespace CrmApi.Controllers
             return Ok(customer);
         }
 
-        // POST: api/Customer - Sadece Admin erişebilir
+        // POST: api/Customer - Only Admin can access
         [HttpPost]
         [Authorize(Roles = "Admin")]
         public async Task<ActionResult<Customer>> CreateCustomer([FromBody] Customer customer)
         {
-            // DateTime'ı UTC'ye çevir
+            // Convert DateTime to UTC
             if (customer.RegistrationDate.Kind != DateTimeKind.Utc)
             {
                 customer.RegistrationDate = DateTime.SpecifyKind(customer.RegistrationDate, DateTimeKind.Utc);
@@ -58,7 +58,7 @@ namespace CrmApi.Controllers
             return CreatedAtAction(nameof(GetCustomer), new { id = customer.Id }, customer);
         }
 
-        // PUT: api/Customer/5 - Sadece Admin erişebilir
+        // PUT: api/Customer/5 - Only Admin can access
         [HttpPut("{id}")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> UpdateCustomer(int id, [FromBody] Customer customer)
@@ -69,7 +69,7 @@ namespace CrmApi.Controllers
                 return BadRequest();
             }
             
-            // DateTime'ı UTC'ye çevir
+            // Convert DateTime to UTC
             if (customer.RegistrationDate.Kind != DateTimeKind.Utc)
             {
                 customer.RegistrationDate = DateTime.SpecifyKind(customer.RegistrationDate, DateTimeKind.Utc);
@@ -94,7 +94,7 @@ namespace CrmApi.Controllers
             return NoContent();
         }
 
-        // DELETE: api/Customer/5 - Sadece Admin erişebilir
+        // DELETE: api/Customer/5 - Only Admin can access
         [HttpDelete("{id}")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteCustomer(int id)
@@ -110,12 +110,12 @@ namespace CrmApi.Controllers
             return NoContent();
         }
 
-        // GET: api/Customer/filter?name=John&region=Europe - User ve Admin erişebilir
+        // GET: api/Customer/filter?name=John&region=Europe - User and Admin can access
         [HttpGet("filter")]
         [Authorize(Roles = "User,Admin")]
         public async Task<ActionResult<IEnumerable<Customer>>> FilterCustomers(string? name, string? email, string? region, DateTime? registrationDate)
         {
-            // DateTime'ı UTC'ye çevir
+            // Convert DateTime to UTC
             if (registrationDate.HasValue && registrationDate.Value.Kind != DateTimeKind.Utc)
             {
                 registrationDate = DateTime.SpecifyKind(registrationDate.Value, DateTimeKind.Utc);
