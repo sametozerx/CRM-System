@@ -33,11 +33,9 @@ const Login: React.FC = () => {
           ? err.response.data 
           : err.response.data.title || err.response.data.message || 'Login failed';
         setError(errorMessage);
-        // Clear error message after 5 seconds
         setTimeout(() => setError(''), 5000);
       } else {
         setError('An error occurred during login');
-        // Clear error message after 5 seconds
         setTimeout(() => setError(''), 5000);
       }
     } finally {
