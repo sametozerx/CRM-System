@@ -7,11 +7,20 @@ import { useAuth } from '../contexts/AuthContext';
 const Dashboard: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'customers' | 'overview'>('customers');
   const [showCustomerForm, setShowCustomerForm] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const { isAdmin, user, logout } = useAuth();
 
   const handleLogout = () => {
     logout();
     window.location.href = '/login';
+  };
+
+  const toggleSidebar = () => {
+    setSidebarOpen(!sidebarOpen);
+  };
+
+  const closeSidebar = () => {
+    setSidebarOpen(false);
   };
 
   // Get user initials for avatar
@@ -20,18 +29,86 @@ const Dashboard: React.FC = () => {
   };
 
   return (
-    <div style={{ display: 'flex', minHeight: '100vh' }}>
-      {/* Sidebar */}
-      <aside style={{
-        width: 280,
+    <div style={{ display: 'flex', minHeight: '100vh', position: 'relative', overflow: 'hidden' }}>
+      {/* Mobile Overlay */}
+      {sidebarOpen && (
+        <div 
+          className="mobile-overlay"
+          onClick={closeSidebar}
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            background: 'rgba(0,0,0,0.5)',
+            zIndex: 998,
+            display: 'none'
+          }}
+        />
+      )}
+
+      {/* Mobile Header */}
+      <div className="mobile-header" style={{
+        display: 'none',
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        height: '60px',
         background: 'linear-gradient(180deg, #184e77 0%, #1e5a8a 100%)',
         color: 'white',
-        display: 'flex',
-        flexDirection: 'column',
-        padding: 0,
-        boxShadow: '2px 0 12px rgba(0,0,0,0.1)',
-        position: 'relative',
+        zIndex: 999,
+        padding: '0 16px',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        boxShadow: '0 2px 8px rgba(0,0,0,0.1)'
       }}>
+        <button
+          onClick={toggleSidebar}
+          style={{
+            background: 'rgba(255,255,255,0.1)',
+            border: 'none',
+            color: 'white',
+            borderRadius: '8px',
+            padding: '8px',
+            fontSize: '18px',
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            width: '40px',
+            height: '40px'
+          }}
+        >
+          <i className="bi bi-list"></i>
+        </button>
+        <div style={{ fontSize: '18px', fontWeight: '600' }}>
+          CRM System
+        </div>
+        <div style={{ width: '40px' }}></div>
+      </div>
+
+      {/* Sidebar */}
+      <aside 
+        className={`sidebar ${sidebarOpen ? 'sidebar-open' : ''}`}
+        style={{
+          width: 280,
+          background: 'linear-gradient(180deg, #184e77 0%, #1e5a8a 100%)',
+          color: 'white',
+          display: 'flex',
+          flexDirection: 'column',
+          padding: 0,
+          boxShadow: '2px 0 12px rgba(0,0,0,0.1)',
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          zIndex: 999,
+          transition: 'transform 0.3s ease',
+          height: '100vh',
+          overflowY: 'auto'
+        }}
+      >
         {/* Top User Section */}
         <div style={{
           padding: '24px 20px',
@@ -132,7 +209,10 @@ const Dashboard: React.FC = () => {
         <div style={{ flex: 1, padding: '24px 0' }}>
           <nav>
             <div
-              onClick={() => setActiveTab('customers')}
+              onClick={() => {
+                setActiveTab('customers');
+                closeSidebar();
+              }}
               className="sidebar-nav-item"
               style={{
                 display: 'flex',
@@ -168,7 +248,10 @@ const Dashboard: React.FC = () => {
               Customers
             </div>
             <div
-              onClick={() => setActiveTab('overview')}
+              onClick={() => {
+                setActiveTab('overview');
+                closeSidebar();
+              }}
               className="sidebar-nav-item"
               style={{
                 display: 'flex',
@@ -219,7 +302,13 @@ const Dashboard: React.FC = () => {
       </aside>
 
       {/* Main Content */}
-      <main style={{ flex: 1, background: '#f8f9fa', padding: '48px 40px' }}>
+      <main className="main-content" style={{ 
+        flex: 1, 
+        background: '#f8f9fa', 
+        padding: '48px 40px',
+        marginLeft: '280px',
+        transition: 'margin-left 0.3s ease'
+      }}>
         {activeTab === 'customers' && (
           <div>
             <CustomerList 

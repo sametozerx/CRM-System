@@ -177,7 +177,7 @@ const CustomerList: React.FC<CustomerListProps> = ({ showForm, setShowForm, onAd
           border: '1px solid #ececec',
           marginBottom: '28px',
           transition: 'box-shadow 0.2s',
-        }}>
+        }} className="search-card">
           {/* Header */}
           <div style={{
             display: 'flex',
@@ -186,8 +186,8 @@ const CustomerList: React.FC<CustomerListProps> = ({ showForm, setShowForm, onAd
             marginBottom: '28px',
             flexWrap: 'wrap',
             gap: '16px'
-          }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+          }} className="customer-header">
+            <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }} className="header-left">
               <div style={{
                 width: '56px',
                 height: '56px',
@@ -199,10 +199,10 @@ const CustomerList: React.FC<CustomerListProps> = ({ showForm, setShowForm, onAd
                 fontSize: '24px',
                 color: 'white',
                 boxShadow: '0 4px 12px rgba(24, 78, 119, 0.3)'
-              }}>
+              }} className="header-icon">
                 <i className="bi bi-people-fill"></i>
               </div>
-              <div>
+              <div className="header-text">
                 <h2 style={{
                   fontSize: '24px',
                   fontWeight: '700',
@@ -242,6 +242,7 @@ const CustomerList: React.FC<CustomerListProps> = ({ showForm, setShowForm, onAd
                   boxShadow: '0 4px 12px rgba(24, 78, 119, 0.2)',
                   minWidth: 'fit-content'
                 }}
+                className="add-customer-btn"
                 onMouseEnter={(e) => {
                   e.currentTarget.style.transform = 'translateY(-2px)';
                   e.currentTarget.style.boxShadow = '0 6px 20px rgba(24, 78, 119, 0.3)';
@@ -252,7 +253,7 @@ const CustomerList: React.FC<CustomerListProps> = ({ showForm, setShowForm, onAd
                 }}
               >
                 <i className="bi bi-person-plus-fill sidebar-icon" style={{ color: 'white' }}></i>
-                Add Customer
+                <span className="btn-text">Add Customer</span>
               </button>
             )}
           </div>
@@ -264,7 +265,7 @@ const CustomerList: React.FC<CustomerListProps> = ({ showForm, setShowForm, onAd
             gap: '16px', 
             marginBottom: '24px',
             flexWrap: 'wrap'
-          }}>
+          }} className="search-controls">
             {searchField === 'registrationDate' ? (
               <div style={{ position: 'relative', flex: 1, minWidth: '280px' }}>
                 <i className="bi bi-calendar3-fill sidebar-icon" style={{
@@ -367,6 +368,7 @@ const CustomerList: React.FC<CustomerListProps> = ({ showForm, setShowForm, onAd
                 boxShadow: '0 4px 12px rgba(24, 78, 119, 0.2)',
                 transition: 'all 0.2s ease'
               }}
+              className="filter-dropdown"
               menuVariant="dark"
             >
               {filterOptions.map(opt => (
@@ -398,7 +400,7 @@ const CustomerList: React.FC<CustomerListProps> = ({ showForm, setShowForm, onAd
           boxShadow: '0 4px 24px 0 rgba(60,72,88,0.08)',
           border: '1px solid #ececec',
           overflow: 'hidden',
-        }}>
+        }} className="table-card">
           <div style={{
             maxHeight: '600px',
             overflowY: 'auto',
