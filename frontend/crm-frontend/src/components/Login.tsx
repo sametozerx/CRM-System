@@ -53,13 +53,13 @@ const Login: React.FC = () => {
       padding: '20px',
       position: 'relative',
       overflow: 'hidden'
-    }}>
+    }} className="login-container">
       <div style={{
         maxWidth: '420px',
         width: '100%',
         position: 'relative',
         zIndex: 1
-      }}>
+      }} className="login-wrapper">
         {/* Login Card */}
         <div style={{
           background: 'rgba(255, 255, 255, 0.95)',
@@ -68,12 +68,12 @@ const Login: React.FC = () => {
           boxShadow: '0 20px 40px rgba(0, 0, 0, 0.1), 0 8px 16px rgba(0, 0, 0, 0.1)',
           backdropFilter: 'blur(10px)',
           border: '1px solid rgba(255, 255, 255, 0.2)'
-        }}>
+        }} className="login-card">
           {/* Header */}
           <div style={{
             textAlign: 'center',
             marginBottom: '32px'
-          }}>
+          }} className="login-header">
             <div style={{
               width: '64px',
               height: '64px',
@@ -86,7 +86,7 @@ const Login: React.FC = () => {
               fontSize: '28px',
               color: '#6c757d',
               boxShadow: '0 4px 12px rgba(233, 236, 239, 0.3)'
-            }}>
+            }} className="login-icon">
               <i className="bi bi-shield-lock-fill"></i>
             </div>
             <h1 style={{
@@ -95,7 +95,7 @@ const Login: React.FC = () => {
               color: '#184e77',
               margin: '0 0 8px 0',
               letterSpacing: '0.5px'
-            }}>
+            }} className="login-title">
               Welcome Back
             </h1>
                          <p style={{
@@ -103,7 +103,7 @@ const Login: React.FC = () => {
                color: '#6c757d',
                margin: 0,
                fontWeight: '400'
-             }}>
+             }} className="login-subtitle">
                Login to your CRM account
              </p>
           </div>

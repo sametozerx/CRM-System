@@ -94,8 +94,8 @@ const CustomerForm: React.FC<CustomerFormProps> = ({ customer, onSubmit, onCance
         padding: '32px 32px 32px 32px',
         alignItems: 'center',
         gap: 16
-      }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+      }} className="customer-form-header">
+        <div style={{ display: 'flex', alignItems: 'center', gap: 16 }} className="header-content">
           <div style={{
             width: 44,
             height: 44,
@@ -107,8 +107,8 @@ const CustomerForm: React.FC<CustomerFormProps> = ({ customer, onSubmit, onCance
             fontSize: 22,
             color: 'white',
             boxShadow: '0 2px 8px rgba(24, 78, 119, 0.08)'
-          }}>
-            <i className="bi bi-person-plus-fill"></i>
+          }} className="header-icon">
+            <i className={`bi ${customer ? 'bi-pencil-fill' : 'bi-person-plus-fill'}`}></i>
           </div>
           <Modal.Title style={{
             fontSize: 24,
@@ -116,7 +116,7 @@ const CustomerForm: React.FC<CustomerFormProps> = ({ customer, onSubmit, onCance
             color: 'white',
             margin: 0,
             letterSpacing: 0.5
-          }}>
+          }} className="header-title">
             {customer ? 'Update Customer' : 'Add New Customer'}
           </Modal.Title>
         </div>
@@ -127,8 +127,8 @@ const CustomerForm: React.FC<CustomerFormProps> = ({ customer, onSubmit, onCance
           borderRadius: 0,
           padding: '32px',
           boxShadow: '0 4px 24px 0 rgba(60,72,88,0.08)'
-        }}>
-          <div style={{ display: 'flex', gap: 24, flexWrap: 'wrap' }}>
+        }} className="customer-form-body">
+          <div style={{ display: 'flex', gap: 24, flexWrap: 'wrap' }} className="form-row">
             <div style={{ flex: 1, minWidth: 220 }}>
               <Form.Label style={{ fontWeight: 600, color: '#184e77', fontSize: 15 }}>First Name *</Form.Label>
               <Form.Control
@@ -198,7 +198,7 @@ const CustomerForm: React.FC<CustomerFormProps> = ({ customer, onSubmit, onCance
               )}
             </div>
           </div>
-          <div style={{ display: 'flex', gap: 24, flexWrap: 'wrap' }}>
+          <div style={{ display: 'flex', gap: 24, flexWrap: 'wrap' }} className="form-row">
             <div style={{ flex: 1, minWidth: 220 }}>
               <Form.Label style={{ fontWeight: 600, color: '#184e77', fontSize: 15 }}>Email *</Form.Label>
               <Form.Control
@@ -268,7 +268,7 @@ const CustomerForm: React.FC<CustomerFormProps> = ({ customer, onSubmit, onCance
               )}
             </div>
           </div>
-          <div style={{ display: 'flex', gap: 24, flexWrap: 'wrap' }}>
+          <div style={{ display: 'flex', gap: 24, flexWrap: 'wrap' }} className="form-row">
             <div style={{ flex: 1, minWidth: 220 }}>
               <Form.Label style={{ fontWeight: 600, color: '#184e77', fontSize: 15 }}>Registration Date *</Form.Label>
               <Form.Control
@@ -314,7 +314,7 @@ const CustomerForm: React.FC<CustomerFormProps> = ({ customer, onSubmit, onCance
           display: 'flex',
           justifyContent: 'flex-end',
           gap: 16
-        }}>
+        }} className="customer-form-footer">
           <Button 
             variant="secondary" 
             onClick={onCancel}
