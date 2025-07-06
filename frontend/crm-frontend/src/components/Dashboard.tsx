@@ -38,52 +38,14 @@ const Dashboard: React.FC = () => {
           borderBottom: '1px solid rgba(255,255,255,0.1)',
           background: 'rgba(255,255,255,0.05)',
         }}>
-          <div style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            marginBottom: '16px'
+          {/* Logout Button */}
+          <div style={{ 
+            display: 'flex', 
+            justifyContent: 'flex-start', 
+            marginBottom: '16px',
+            paddingBottom: '16px',
+            borderBottom: '1px solid rgba(255,255,255,0.1)'
           }}>
-            <div style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '12px'
-            }}>
-              {/* User Avatar */}
-              <div style={{
-                width: '48px',
-                height: '48px',
-                borderRadius: '50%',
-                background: 'linear-gradient(135deg, #e9ecef 0%, #dee2e6 100%)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                fontSize: '20px',
-                color: '#6c757d',
-                boxShadow: '0 4px 12px rgba(233, 236, 239, 0.3)',
-              }}>
-                <i className="bi bi-person-fill sidebar-icon"></i>
-              </div>
-              <div>
-                <div style={{
-                  fontSize: '16px',
-                  fontWeight: '600',
-                  marginBottom: '2px'
-                }}>
-                  {user?.username || 'User'}
-                </div>
-                <div style={{
-                  fontSize: '12px',
-                  fontWeight: 'bold',
-                  color: '#f8f9fa',
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.5px'
-                }}>
-                  {user?.role || 'User'}
-                </div>
-              </div>
-            </div>
-            {/* Logout Button */}
             <button
               onClick={handleLogout}
               style={{
@@ -112,6 +74,53 @@ const Dashboard: React.FC = () => {
               <i className="bi bi-box-arrow-right sidebar-icon" style={{ fontSize: '14px' }}></i>
               Logout
             </button>
+          </div>
+          
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '16px'
+          }}>
+            {/* User Avatar */}
+            <div style={{
+              width: '48px',
+              height: '48px',
+              borderRadius: '50%',
+              background: 'linear-gradient(135deg, #e9ecef 0%, #dee2e6 100%)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontSize: '20px',
+              color: '#6c757d',
+              boxShadow: '0 4px 12px rgba(233, 236, 239, 0.3)',
+            }}>
+              <i className="bi bi-person-fill sidebar-icon"></i>
+            </div>
+            <div>
+              <div style={{
+                fontSize: '16px',
+                fontWeight: '600',
+                marginBottom: '2px',
+                maxWidth: '165px',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                whiteSpace: 'nowrap',
+                display: 'block',
+              }}
+              title={user?.username || 'User'}
+              >
+                {user?.username || 'User'}
+              </div>
+              <div style={{
+                fontSize: '12px',
+                fontWeight: 'bold',
+                color: '#f8f9fa',
+                textTransform: 'uppercase',
+                letterSpacing: '0.5px'
+              }}>
+                {user?.role || 'User'}
+              </div>
+            </div>
           </div>
         </div>
 

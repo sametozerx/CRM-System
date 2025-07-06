@@ -5,7 +5,7 @@
 -- Dumped from database version 17.5
 -- Dumped by pg_dump version 17.5
 
--- Started on 2025-07-06 15:00:10
+-- Started on 2025-07-06 16:23:11
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -92,7 +92,7 @@ COPY public."__EFMigrationsHistory" ("MigrationId", "ProductVersion") FROM stdin
 -- Name: Customers_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public."Customers_Id_seq"', 32, true);
+SELECT pg_catalog.setval('public."Customers_Id_seq"', 33, true);
 
 
 --
@@ -104,7 +104,7 @@ SELECT pg_catalog.setval('public."Customers_Id_seq"', 32, true);
 SELECT pg_catalog.setval('public."Users_Id_seq"', 2, true);
 
 
--- Completed on 2025-07-06 15:00:10
+-- Completed on 2025-07-06 16:23:11
 
 --
 -- PostgreSQL database dump complete
