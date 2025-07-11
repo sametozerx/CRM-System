@@ -32,7 +32,7 @@ A full-stack Customer Relationship Management (CRM) application built with ASP.N
 
 ### Backend
 - **Framework**: ASP.NET Core 8.0
-- **Database**: SQL Server
+- **Database**: PostgreSQL
 - **ORM**: Entity Framework Core
 - **Authentication**: JWT Tokens
 
